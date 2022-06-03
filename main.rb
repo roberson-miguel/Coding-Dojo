@@ -1,6 +1,6 @@
 require 'json'
 
-arr = JSON.parse <<END_OF_JSON
+data = JSON.parse <<COMPANY_JSON
 [
   {
    "nome":"Samsung",
@@ -39,12 +39,56 @@ arr = JSON.parse <<END_OF_JSON
    "anoDeCriacao":1976
 }
 ]
-END_OF_JSON
+COMPANY_JSON
 
-market_value = 0
-arr.each do |company|
-  market_value += company['valorDeMercado']
+# ----------------------------
+
+p '----------------------------'
+p "Empresas criadas depois do ano 2000:"
+
+result_ex_1 = []
+
+result_ex_1 = data.filter_map do |hash|
+  hash if hash["anoDeCriacao"] > 2000
 end
-market_value
 
-p market_value
+p result_ex_1
+
+# Outras opções
+
+# results = arr.each do |hash|
+  # results << hash if hash["anoDeCriacao"] > 2000
+# end
+
+# results = arr.map do |hash|
+  # hash if hash["anoDeCriacao"] > 2000
+# end.compact
+
+# results = arr.select do |hash|
+#   hash["anoDeCriacao"] > 2000
+# end.map do |xablau|
+#   {"nome": xablau["nome"]}
+# end
+
+# ----------------------------
+
+p '----------------------------'
+p "CEO das empresas:"
+
+result_ex_2 = data.map do |hash|
+  "#{hash['nome']} CEO: #{hash["CEO"]}"
+end
+
+p result_ex_2
+
+# ----------------------------
+
+p '----------------------------'
+p "Soma do valor de mercado de todas as empresas:"
+
+result_ex_3 = data.map do |hash|
+  hash["valorDeMercado"]
+end.sum
+
+p result_ex_3
+p '----------------------------'
